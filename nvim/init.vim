@@ -47,6 +47,9 @@ set foldmethod=indent
 set nofoldenable 
 set showmatch  
 set shortmess=atI 
+set undofile 
+set undodir =~/.vim/undodir
+au InsertLeave *.go write
 
 
 
@@ -78,20 +81,20 @@ nnoremap K 5j
 nnoremap I 5k
 nnoremap L $
 
-
 noremap Y p
 
 noremap = nzz 
 noremap - Nzz
 
-inoremap ∆ <left>
-inoremap ¬ <right>
-inoremap ˆ <up>
-inoremap ˚ <down>
+"inoremap ∆ <left>
+"inoremap ¬ <right>
+"inoremap ˆ <up>
+"inoremap ˚ <down>
 
 vnoremap I 5<Up>
 vnoremap K 5<Down>
-
+vnoremap L $
+vnoremap J 0
 
 " Ctrl + U or E will move up/down the view port without moving the cursor
 nnoremap <C-U> 5<C-y>
@@ -136,27 +139,27 @@ map<LEADER>wh <C-w>t<C-w>K
 map<LEADER><CR> :nohlsearch<Cr>
 
 " Spelling Check
-map <LEADER>sc :set spell!<CR> 
-noremap <C-x> ea<C-x>s 
-inoremap <C-x> <Esc>ea<C-x>s
+"map <LEADER>sc :set spell!<CR> 
+"noremap <C-x> ea<C-x>s 
+"inoremap <C-x> <Esc>ea<C-x>s
 
 "man" 启用:Man命令查看各类man信息
-source $VIMRUNTIME/ftplugin/man.vim
-" 定义:Man命令查看各类man信息的快捷键
-nmap <Leader>man :Man 3 <cword><CR>
+"source $VIMRUNTIME/ftplugin/man.vim
+"" 定义:Man命令查看各类man信息的快捷键
+"nmap <Leader>man :Man 3 <cword><CR>
 
 
 
 
 
-function! g:BuffetSetCustomColors()
-    hi! BuffetCurrentBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#859900 guifg=#D3D3D3
-    hi! BuffetActiveBuffer cterm=NONE ctermbg=10 ctermfg=2 guibg=#00BFFF guifg=#D3D3D3
-    hi! BuffetBuffer cterm=NONE ctermbg=10 ctermfg=8 guibg=#676868 guifg=#DCDCDC
-    hi! BuffetTrunc cterm=bold ctermbg=11 ctermfg=8 guibg=#999999 guifg=#000000
-    hi! BuffetTab cterm=NONE ctermbg=4 ctermfg=8 guibg=#288BD3 guifg=#000000
+"function! g:BuffetSetCustomColors()
+    "hi! BuffetCurrentBuffer cterm=NONE ctermbg=5 ctermfg=8 guibg=#859900 guifg=#D3D3D3
+    "hi! BuffetActiveBuffer cterm=NONE ctermbg=10 ctermfg=2 guibg=#00BFFF guifg=#D3D3D3
+    "hi! BuffetBuffer cterm=NONE ctermbg=10 ctermfg=8 guibg=#676868 guifg=#DCDCDC
+    "hi! BuffetTrunc cterm=bold ctermbg=11 ctermfg=8 guibg=#999999 guifg=#000000
+    "hi! BuffetTab cterm=NONE ctermbg=4 ctermfg=8 guibg=#288BD3 guifg=#000000
 
-endfunction
+"endfunction
 
 
 
@@ -164,102 +167,107 @@ endfunction
 
 
 set rtp+=~/.vim/bundle/Vundle.vim
-set rtp+=/usr/local/opt/fzf
-call vundle#begin('~/.vim/bundle')
+"set rtp+=/usr/local/opt/fzf
+call plug#begin('~/.vim/bundle')
 "" pretty
-Plugin 'VundleVim/Vundle.vim' 
-Plugin 'vim-airline/vim-airline' 
-Plugin 'connorholyday/vim-snazzy'
-Plugin 'dracula/vim'
-Plugin 'itchyny/vim-cursorword'
-Plugin 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
-Plugin 'vim-airline/vim-airline-themes'
+"Plug 'VundleVim/Vundle.vim' 
+Plug 'vim-airline/vim-airline' 
+Plug 'connorholyday/vim-snazzy'
+Plug 'dracula/vim'
+Plug 'itchyny/vim-cursorword'
+"Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+Plug 'vim-airline/vim-airline-themes'
 " Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'Yggdroot/indentLine'
+Plug 'Yggdroot/indentLine'
 ""Plugin 'fholgado/minibufexpl.vim'
-Plugin 'ryanoasis/vim-devicons'
+Plug 'ryanoasis/vim-devicons'
 "Plugin 'bagrat/vim-buffet'
-Plugin 'mhinz/vim-startify'
-Plugin 'altercation/vim-colors-solarized'
+Plug 'mhinz/vim-startify'
+Plug 'altercation/vim-colors-solarized'
 
+"Plug 'xolox/vim-session'
+    
 ""
 ""
 ""
 ""
 """nerdtree
-Plugin 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin'
 ""
 """tagbar
-Plugin 'majutsushi/tagbar', { 'on': 'TagbarOpenAutoClose' }
+"Plug 'majutsushi/tagbar', { 'on': 'TagbarOpenAutoClose' }
+Plug 'majutsushi/tagbar'
 ""
 """ Error checking
 "Plugin 'w0rp/ale'
 ""
 """ ycm
-Plugin 'Valloric/YouCompleteMe'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'fatih/vim-go'
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+"Plugin 'Valloric/YouCompleteMe'
 ""
 """ Undo Tree
-Plugin 'mbbill/undotree'
-""
-""" Python
-Plugin 'vim-scripts/indentpython.vim'
-Plugin 'vim-python/python-syntax'
-""
-""" Bookmarks
-"Plugin 'kshenoy/vim-signature'
+Plug 'mbbill/undotree'
 ""
 """ git
-Plugin 'mhinz/vim-signify'
-Plugin 'tpope/vim-fugitive'
+" 左边栏显示git信息
+Plug 'mhinz/vim-signify'
+Plug 'tpope/vim-fugitive'
 
 ""
 " doxygen
-Plugin 'vim-scripts/DoxygenToolkit.vim'
+"Plug 'vim-scripts/DoxygenToolkit.vim'
 ""
 """ c++ highlight
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'STL-improved'
+"Plug 'octol/vim-cpp-enhanced-highlight'
+"Plug 'STL-improved'
 ""
 ""
 """ others
-Plugin 'junegunn/goyo.vim' 
-Plugin 'derekwyatt/vim-fswitch' 
-Plugin 'fadein/vim-FIGlet'
-Plugin 'CodeFalling/fcitx-vim-osx'
+Plug 'easymotion/vim-easymotion'
 ""
 ""
 ""
 """search
-Plugin 'dyng/ctrlsf.vim' 
-Plugin 'mileszs/ack.vim'
+"Plug 'wsdjeg/FlyGrep.vim'
+"Plug 'brooth/far.vim'
+"Plug 'dyng/ctrlsf.vim' 
+"Plug 'mileszs/ack.vim'
 ""Plugin 'ctrlpvim/ctrlp.vim'
 " Fast file navigation
 ""Plugin 'wincent/Command-T'
 
 ""
 """edit
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
+"Plug 'terryma/vim-multiple-cursors'
+Plug 'scrooloose/nerdcommenter'
+"Plug 'SirVer/ultisnips'
+"Plug 'honza/vim-snippets'
 ""Plugin 'derekwyatt/vim-protodef'
-Plugin 'vim-scripts/h2cppx'
-Plugin 'gcmt/wildfire.vim'
-Plugin 'drmingdrmer/xptemplate'
-Plugin 'godlygeek/tabular'
-Plugin 'jiangmiao/auto-pairs'
+"Plug 'vim-scripts/h2cppx'
+"Plug 'gcmt/wildfire.vim'
+"Plug 'drmingdrmer/xptemplate'
+Plug 'godlygeek/tabular'
+Plug 'jiangmiao/auto-pairs'
 
 
-Plugin 'junegunn/fzf.vim'
+Plug 'junegunn/fzf.vim'
 
+" go 主要插件
+"Plug 'fatih/vim-go', { 'tag': '*' }
+" go 中的代码追踪，输入 gd 就可以自动跳转
+Plug 'dgryski/vim-godef'
 
+Plug 'junegunn/vim-easy-align'
 
 "colorscheme
-Plugin 'junegunn/seoul256.vim' 
-Plugin 'yuttie/inkstained-vim'
-Plugin 'lifepillar/vim-solarized8'
-Plugin 'ayu-theme/ayu-vim'
+Plug 'junegunn/seoul256.vim' 
+Plug 'yuttie/inkstained-vim'
+Plug 'lifepillar/vim-solarized8'
+Plug 'ayu-theme/ayu-vim'
 
 "Plugin 'roxma/nvim-yarp'
 "Plugin 'ncm2/ncm2'
@@ -268,13 +276,16 @@ Plugin 'ayu-theme/ayu-vim'
 "Plugin 'ncm2/ncm2-pyclang'
 
 
-call vundle#end()
+call plug#end()
 
 "set background=dark
 "colorscheme seoul256-light
 let ayucolor="light"  " for light version of theme
-colorscheme ayu
-
+"colorscheme ayu
+"colorscheme snazzy
+"
+colorscheme dracula
+"
 " Compile function
 map r :call CompileRunGcc()<CR>
 func! CompileRunGcc()
@@ -299,6 +310,10 @@ func! CompileRunGcc()
     exec "MarkdownPreview"
   elseif &filetype == 'vimwiki'
     exec "MarkdownPreview"
+  elseif &filetype == 'go'
+        set splitbelow
+		:sp
+		:term go run %
   endif
 endfunc
 
@@ -322,8 +337,8 @@ let g:DoxygenToolkit_compactOneLineDoc ="no"
 "colorscheme dracula
 
 set termguicolors     " enable true colors support
-"let g:airline_theme='dracula'
-let g:airline_theme='ayu_light'
+let g:airline_theme='dracula'
+"let g:airline_theme='ayu_light'
 "set transparency=15
 
 
@@ -357,11 +372,19 @@ let NERDTreeMapJumpPrevSibling = "<C-i>"
 let NERDTreeMapJumpNextSibling = "<C-k>"
 
 let NERDTreeMapOpenSplit = ""
-let NERDTreeMapJumpFirstChild = "I"
-let NERDTreeMapJumpLastChild = "K"
+let NERDTreeMapJumpFirstChild = "gg"
+let NERDTreeMapJumpLastChild = "G"
 let NERDTreeMapToggleHidden = "H"
 
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+"autocmd VimEnter *  NERDTree
+"autocmd VimEnter *
+                "\   if !argc()
+                "\ |   Startify
+                "\ |   NERDTree
+                ""\ |   wincmd w
+                "\ | endif
 
 let NERDTreeMinimalMenu=1
 let NERDTreeCascadeOpenSingleChildDir=1
@@ -409,62 +432,82 @@ let g:NERDTreeIndicatorMapCustom = {
 
 
 
-
-" ===
-" " === You Complete ME
-" " ===
-nnoremap gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-nnoremap g/ :YcmCompleter GetDoc<CR>
-nnoremap gt :YcmCompleter GetType<CR>
-nnoremap gr :YcmCompleter GoToReferences<CR>
-
-let g:ycm_server_python_interpreter='/usr/bin/python'
-let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'
-
-" 语法关键字补全
-let g:ycm_seed_identifiers_with_syntax = 1
-" 开启 YCM 基于标签引擎
-let g:ycm_collect_identifiers_from_tags_files = 1
-" 从第2个键入字符就开始罗列匹配项
-let g:ycm_min_num_of_chars_for_completion=2
-" 在注释输入中也能补全
-let g:ycm_complete_in_comments = 1
-" 在字符串输入中也能补全
-let g:ycm_complete_in_strings = 1
-" 注释和字符串中的文字也会被收入补全
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-""let g:ycm_use_clangd = 0
+"" ===
+"" === coc
+"" ===
+" use <tab> for trigger completion and navigate to the next complete item
+"
+"
+"
+"自动修复import
+"autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
 
 
+let g:go_def_mapping_enabled = 0
 
-" vim-fswitch
-nmap <silent> <Leader>sw :FSHere<cr>
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
 
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
+"" fix the most annoying bug that coc has
+silent! au BufEnter,BufRead,BufNewFile * silent! unmap if
+"let g:coc_global_extensions = ['coc-python', 'coc-vimlsp', 'coc-emmet', 'coc-html', 'coc-json', 'coc-css', 'coc-tsserver', 'coc-yank', 'coc-lists', 'coc-gitignore', 'coc-go']
+"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+"" use <tab> for trigger completion and navigate to the next complete item
+"function! s:check_back_space() abort
+    "let col = col('.') - 1
+    "return !col || getline('.')[col - 1]	=~ '\s'
+"endfunction
+"inoremap <silent><expr> <Tab>
+            "\ pumvisible() ? "\<C-n>" :
+            "\ <SID>check_back_space() ? "\<Tab>" :
+            "\ coc#refresh()
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <silent><expr> <c-space> coc#refresh()
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-" vim-signature
-let g:SignatureMap = {
-        \ 'Leader'             :  "m",
-        \ 'PlaceNextMark'      :  "m,",
-        \ 'ToggleMarkAtLine'   :  "m.",
-        \ 'PurgeMarksAtLine'   :  "m-",
-        \ 'DeleteMark'         :  "dm",
-        \ 'PurgeMarks'         :  "mda",
-        \ 'PurgeMarkers'       :  "m<BS>",
-        \ 'GotoNextLineAlpha'  :  "']",
-        \ 'GotoPrevLineAlpha'  :  "'[",
-        \ 'GotoNextSpotAlpha'  :  "`]",
-        \ 'GotoPrevSpotAlpha'  :  "`[",
-        \ 'GotoNextLineByPos'  :  "]'",
-        \ 'GotoPrevLineByPos'  :  "['",
-        \ 'GotoNextSpotByPos'  :  "mn",
-        \ 'GotoPrevSpotByPos'  :  "mp",
-        \ 'GotoNextMarker'     :  "[+",
-        \ 'GotoPrevMarker'     :  "[-",
-        \ 'GotoNextMarkerAny'  :  "]=",
-        \ 'GotoPrevMarkerAny'  :  "[=",
-        \ 'ListLocalMarks'     :  "ms",
-        \ 'ListLocalMarkers'   :  "m?"
-        \ }
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use U to show documentation in preview window
+nnoremap <silent> H :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" if hidden is not set, TextEdit might fail.
+set hidden
+
+" Some servers have issues with backup files, see #649
+set nobackup
+set nowritebackup
+
+" Better display for messages
+set cmdheight=2
+
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
 
 
 " tagbar
@@ -477,42 +520,6 @@ let tagbar_width=32
 " tagbar 子窗口中不显示冗余帮助信息 
 let g:tagbar_compact=1
 " 设置 ctags 对哪些代码标识符生成标签
-let g:tagbar_type_cpp = {
-    \ 'kinds' : [
-         \ 'c:classes:0:1',
-         \ 'd:macros:0:1',
-         \ 'e:enumerators:0:0', 
-         \ 'f:functions:0:1',
-         \ 'g:enumeration:0:1',
-         \ 'l:local:0:1',
-         \ 'm:members:0:1',
-         \ 'n:namespaces:0:1',
-         \ 'p:functions_prototypes:0:1',
-         \ 's:structs:0:1',
-         \ 't:typedefs:0:1',
-         \ 'u:unions:0:1',
-         \ 'v:global:0:1',
-         \ 'x:external:0:1'
-     \ ],
-     \ 'sro'        : '::',
-     \ 'kind2scope' : {
-         \ 'g' : 'enum',
-         \ 'n' : 'namespace',
-         \ 'c' : 'class',
-         \ 's' : 'struct',
-         \ 'u' : 'union'
-     \ },
-     \ 'scope2kind' : {
-         \ 'enum'      : 'g',
-         \ 'namespace' : 'n',
-         \ 'class'     : 'c',
-         \ 'struct'    : 's',
-         \ 'union'     : 'u'
-     \ }
-\ }
-
-
-
 
 " tagbar
 let g:tagbar_map_showproto = ""
@@ -527,79 +534,80 @@ let g:tagbar_map_closeallfolds = "-"
 
 
 " search
-nnoremap <LEADER>s :CtrlSF 
+"nnoremap <LEADER>s :CtrlSF 
+"
 " none\done\start
 " done within 1000ms will focus
-let g:ctrlsf_auto_focus = {
-        \ "at" : "done",
-        \ "duration_less_than": 1000
-        \ }
-let g:ctrlsf_mapping = {
-            \      "open"    : ["<CR>", "L"],
-            \      "openb"   : "O",
-            \      "split"   : "<C-O>",
-            \      "vsplit"  : "",
-            \      "tab"     : "t",
-            \      "tabb"    : "T",
-            \      "popen"   : "l",
-            \      "popenf"  : "P",
-            \      "quit"    : "q",
-            \      "next"    : "k",
-            \      "prev"    : "i",
-            \      "pquit"   : "q",
-            \      "loclist" : "",
-            \      "chgmode" : "M",
-            \      "stop"    : "<C-C>",
-            \  }
+"let g:ctrlsf_auto_focus = {
+        "\ "at" : "done",
+        "\ "duration_less_than": 1000
+        "\ }
+"let g:ctrlsf_mapping = {
+            "\      "open"    : ["<CR>", "L"],
+            "\      "openb"   : "O",
+            "\      "split"   : "<C-O>",
+            "\      "vsplit"  : "",
+            "\      "tab"     : "t",
+            "\      "tabb"    : "T",
+            "\      "popen"   : "l",
+            "\      "popenf"  : "P",
+            "\      "quit"    : "q",
+            "\      "next"    : "k",
+            "\      "prev"    : "i",
+            "\      "pquit"   : "q",
+            "\      "loclist" : "",
+            "\      "chgmode" : "M",
+            "\      "stop"    : "<C-C>",
+            "\  }
 
 
 "edit 
 "
 "
-"
-let g:multi_cursor_use_default_mapping=0
-" Default mapping
-let g:multi_cursor_start_word_key      = '<C-n>'
-let g:multi_cursor_select_all_word_key = '<A-n>'
-let g:multi_cursor_start_key           = 'g<C-n>'
-let g:multi_cursor_select_all_key      = 'g<A-n>'
-let g:multi_cursor_next_key            = '<C-n>'
-let g:multi_cursor_prev_key            = '<C-p>'
-let g:multi_cursor_skip_key            = '<C-m>'
-let g:multi_cursor_quit_key            = '<Esc>'
+""
+"let g:multi_cursor_use_default_mapping=0
+"" Default mapping
+"let g:multi_cursor_start_word_key      = '<C-n>'
+"let g:multi_cursor_select_all_word_key = '<A-n>'
+"let g:multi_cursor_start_key           = 'g<C-n>'
+"let g:multi_cursor_select_all_key      = 'g<A-n>'
+"let g:multi_cursor_next_key            = '<C-n>'
+"let g:multi_cursor_prev_key            = '<C-p>'
+"let g:multi_cursor_skip_key            = '<C-m>'
+"let g:multi_cursor_quit_key            = '<Esc>'
 
-let g:ctrlsf_default_root = 'project'
+"let g:ctrlsf_default_root = 'project'
 
 
 " 替换函数。参数说明：
 " confirm：是否替换前逐一确认
 " wholeword：是否整词匹配
 " replace：被替换字符串
-function! Replace(confirm, wholeword, replace)
-    wa
-    let flag = ''
-    if a:confirm
-        let flag .= 'gec'
-    else
-        let flag .= 'ge'
-    endif
-    let search = ''
-    if a:wholeword
-        let search .= '\<' . escape(expand('<cword>'), '/\.*$^~[') . '\>'
-    else
-        let search .= expand('<cword>')
-    endif
-    let replace = escape(a:replace, '/\&~')
-    execute 'argdo %s/' . search . '/' . replace . '/' . flag . '| update'
-endfunction
-" 不确认、非整词
-nnoremap <Leader>rCW :call Replace(0, 0, input('Replace '.expand('<cword>').' with: '))<CR>
-" 不确认、整词
-nnoremap <Leader>rCw :call Replace(0, 1, input('Replace '.expand('<cword>').' with: '))<CR>
-" 确认、非整词
-nnoremap <Leader>rcW :call Replace(1, 0, input('Replace '.expand('<cword>').' with: '))<CR>
-" 确认、整词
-nnoremap <Leader>rcw :call Replace(1, 1, input('Replace '.expand('<cword>').' with: '))<CR>
+"function! Replace(confirm, wholeword, replace)
+    "wa
+    "let flag = ''
+    "if a:confirm
+        "let flag .= 'gec'
+    "else
+        "let flag .= 'ge'
+    "endif
+    "let search = ''
+    "if a:wholeword
+        "let search .= '\<' . escape(expand('<cword>'), '/\.*$^~[') . '\>'
+    "else
+        "let search .= expand('<cword>')
+    "endif
+    "let replace = escape(a:replace, '/\&~')
+    "execute 'argdo %s/' . search . '/' . replace . '/' . flag . '| update'
+"endfunction
+"" 不确认、非整词
+"nnoremap <Leader>rCW :call Replace(0, 0, input('Replace '.expand('<cword>').' with: '))<CR>
+"" 不确认、整词
+"nnoremap <Leader>rCw :call Replace(0, 1, input('Replace '.expand('<cword>').' with: '))<CR>
+"" 确认、非整词
+"nnoremap <Leader>rcW :call Replace(1, 0, input('Replace '.expand('<cword>').' with: '))<CR>
+"" 确认、整词
+"nnoremap <Leader>rcw :call Replace(1, 1, input('Replace '.expand('<cword>').' with: '))<CR>
 
 
 " ultisnips 模板补全
@@ -607,12 +615,12 @@ nnoremap <Leader>rcw :call Replace(1, 1, input('Replace '.expand('<cword>').' wi
 "let g:UltiSnipsSnippetDirectories=["mysnippets"]
 " UltiSnips 的 tab 键与 YCM 冲突，重新设定
 
-let g:UltiSnipsExpandTrigger="<C-f>"
+"let g:UltiSnipsExpandTrigger="<C-f>"
 
-"接口转实现"
-let g:h2cppx_python_path = '/usr/bin/python2.7'
-nmap <F3>  :H2cppx<ESC>
-nmap <F4>  :H2cppxLine<ESC>
+""接口转实现"
+"let g:h2cppx_python_path = '/usr/bin/python2.7'
+"nmap <F3>  :H2cppx<ESC>
+"nmap <F4>  :H2cppxLine<ESC>
 
 "buffer switch"
 
@@ -633,39 +641,70 @@ nnoremap <C-X> :bdelete<CR>
 
 "fast visual"
 " 快捷键
-map h <Plug>(wildfire-fuel)
-vmap ; <Plug>(wildfire-water)
-" 适用于哪些结对符
-let g:wildfire_objects = ["i'", 'i"', "i)", "i]", "i}", "i>", "ip"]
+"map h <Plug>(wildfire-fuel)
+"vmap ; <Plug>(wildfire-water)
+"" 适用于哪些结对符
+"let g:wildfire_objects = ["i'", 'i"', "i)", "i]", "i}", "i>", "ip"]
 
 "undotree"
 nnoremap <F5> :UndotreeToggle<cr>
 
 "ctrlp"
 "" 打开ctrlp搜索
-let g:ctrlp_map = '<leader>ff'
-let g:ctrlp_cmd = 'CtrlP'
-" 相当于mru功能，show recently opened files
-map <leader>fp :CtrlPMRU<CR>
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux"
-let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
-    \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz)$',
-    \ }
-"""\ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
-let g:ctrlp_working_path_mode=0
-let g:ctrlp_match_window_bottom=1
-let g:ctrlp_max_height=15
-let g:ctrlp_match_window_reversed=0
-let g:ctrlp_mruf_max=500
-let g:ctrlp_follow_symlinks=1
+"let g:ctrlp_map = '<leader>ff'
+"let g:ctrlp_cmd = 'CtrlP'
+"" 相当于mru功能，show recently opened files
+"map <leader>fp :CtrlPMRU<CR>
+"set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux"
+"let g:ctrlp_custom_ignore = {
+    "\ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
+    "\ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz)$',
+    "\ }
+""""\ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
+"let g:ctrlp_working_path_mode=0
+"let g:ctrlp_match_window_bottom=1
+"let g:ctrlp_max_height=15
+"let g:ctrlp_match_window_reversed=0
+"let g:ctrlp_mruf_max=500
+"let g:ctrlp_follow_symlinks=1
 
-"xptemplate"
-let g:xptemplate_vars = "BRfun= "
-let g:xptemplate_vars = "BRif= " 
+""xptemplate"
+"let g:xptemplate_vars = "BRfun= "
+"let g:xptemplate_vars = "BRif= " 
 
 "markdown
 "
 " set to 1, nvim will open the preview window after entering the markdown buffer
 " default: 0
-let g:mkdp_auto_start = 1
+"let g:mkdp_auto_start = 0
+
+" easymotion
+"
+nmap s <Plug>(easymotion-s2)
+
+
+" vim-go
+let g:go_doc_keywordprg_enabled = 0
+
+" startify
+let g:startify_bookmarks = [ {'c': '~/.vimrc'}, '~/.zshrc' ]
+let g:startify_change_to_vcs_root = 1
+"let g:startify_session_persistence    = 1
+let g:startify_lists = [
+  \ { 'type': 'dir',       'header': ['   Recent files'] },
+  \ { 'type': 'sessions',  'header': ['   Saved sessions'] },
+  \ ]
+
+"if has('nvim')
+      "autocmd TabNewEntered * Startify
+    "else
+      "autocmd BufWinEnter *
+            "\ if !exists('t:startify_new_tab')
+            "\     && empty(expand('%'))
+            "\     && empty(&l:buftype)
+            "\     && &l:modifiable |
+            "\   let t:startify_new_tab = 1 |
+            "\   Startify |
+            "\ endif
+    "endif
+
