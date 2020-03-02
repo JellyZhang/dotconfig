@@ -1,3 +1,4 @@
+
 syntax on 
 set noswapfile
 set nocompatible 
@@ -23,9 +24,9 @@ set foldlevel=99
 set laststatus=2 
 set autochdir 
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal!g'\"" | endif 
-set guifont=Source_Code_Pro:h12 
-set guioptions-=m 
-set guioptions-=T 
+"set guifont=Source_Code_Pro:h12 
+"set guioptions-=m 
+"set guioptions-=T 
 set fileencodings=utf-8,chinese,latin-1
 
 let mapleader=" "
@@ -60,31 +61,30 @@ au InsertLeave *.go write
 
 
 
-
 mapclear
 
 map Q :q<CR>
 map S :w<CR>
 
-noremap j h
-noremap k j
-noremap i k
+nnoremap j h
+nnoremap k j
+nnoremap i k
 
-noremap a i
-noremap A a
+nnoremap a i
+nnoremap A a
 
-noremap o I
-noremap O A
+nnoremap o I
+nnoremap O A
 
 nnoremap J 0
 nnoremap K 5j
 nnoremap I 5k
 nnoremap L $
 
-noremap Y p
+nnoremap Y p
 
-noremap = nzz 
-noremap - Nzz
+nnoremap = nzz 
+nnoremap - Nzz
 
 "inoremap ∆ <left>
 "inoremap ¬ <right>
@@ -96,11 +96,16 @@ vnoremap K 5<Down>
 vnoremap L $
 vnoremap J 0
 
+vnoremap i <Up>
+vnoremap j <Left>
+vnoremap k <Down>
+
+
 " Ctrl + U or E will move up/down the view port without moving the cursor
 nnoremap <C-U> 5<C-y>
 nnoremap <C-E> 5<C-e>
 "  cant work inoremap <C-U> <Esc>5<C-y>a
-inoremap <C-E> <Esc>5<C-e>a
+"inoremap <C-E> <Esc>5<C-e>a
 
 " move cursor to center of window
 imap <C-c> <Esc>zza 
@@ -204,7 +209,8 @@ Plug 'majutsushi/tagbar'
 ""
 """ ycm
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'tag': '*' }
+"Plug 'dgryski/vim-godef'
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "Plugin 'Valloric/YouCompleteMe'
@@ -259,7 +265,7 @@ Plug 'junegunn/fzf.vim'
 " go 主要插件
 "Plug 'fatih/vim-go', { 'tag': '*' }
 " go 中的代码追踪，输入 gd 就可以自动跳转
-Plug 'dgryski/vim-godef'
+"Plug 'dgryski/vim-godef'
 
 Plug 'junegunn/vim-easy-align'
 
@@ -268,6 +274,8 @@ Plug 'junegunn/seoul256.vim'
 Plug 'yuttie/inkstained-vim'
 Plug 'lifepillar/vim-solarized8'
 Plug 'ayu-theme/ayu-vim'
+Plug 'morhetz/gruvbox'
+Plug 'w0ng/vim-hybrid'
 
 "Plugin 'roxma/nvim-yarp'
 "Plugin 'ncm2/ncm2'
@@ -278,16 +286,28 @@ Plug 'ayu-theme/ayu-vim'
 
 call plug#end()
 
-"set background=dark
+"set background=light
 "colorscheme seoul256-light
-let ayucolor="light"  " for light version of theme
+"let ayucolor="dark"  " for light version of theme
 "colorscheme ayu
 "colorscheme snazzy
-"
-colorscheme dracula
-"
-" Compile function
+color dracula
+"colorscheme gruvbox
+highlight Pmenu ctermbg=darkGrey ctermfg=White
+highlight PmenuSel ctermbg=darkblue ctermfg=White
+
+
+"verbose highlight Pmenu
+
+"hi Pmenu ctermfg=NONE ctermbg=236 cterm=NONE guifg=NONE guibg=#64666d gui=NONE
+"hi PmenuSel ctermfg=NONE ctermbg=24 cterm=NONE guifg=NONE guibg=#204a87 gui=NONE
+"let g:gruvbox_contrast_dark="hard"
+
+
+
+"Compile function 
 map r :call CompileRunGcc()<CR>
+
 func! CompileRunGcc()
   exec "w"
   if &filetype == 'c'
@@ -299,6 +319,8 @@ func! CompileRunGcc()
   elseif &filetype == 'java'
     exec "!javac %"
     exec "!time java %<"
+  elseif &filetype == 'go'
+    exec "!go run %"
   elseif &filetype == 'sh'
     :!time bash %
   elseif &filetype == 'python'
@@ -326,17 +348,12 @@ endfunc
 "autocmd BufEnter * call ncm2#enable_for_buffer()
 "set completeopt=noinsert,menuone,noselect
 
-" doxygen
-let g:DoxygenToolkit_authorName="zhangjelly0405@gmail.com" 
-" let g:DoxygenToolkit_commentType = "C++"
-let g:DoxygenToolkit_compactOneLineDoc ="no"
 
 " make it pretty
 "colorscheme snazzy
 "let g:SnazzyTransparent = 1
 "colorscheme dracula
 
-set termguicolors     " enable true colors support
 let g:airline_theme='dracula'
 "let g:airline_theme='ayu_light'
 "set transparency=15
@@ -441,9 +458,14 @@ let g:NERDTreeIndicatorMapCustom = {
 "
 "自动修复import
 "autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
+"
+"" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 
 let g:go_def_mapping_enabled = 0
+let g:go_textobj_enabled = 0
+nmap gd :GoDef<CR>
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -455,7 +477,7 @@ inoremap <silent><expr> <Tab>
       \ <SID>check_back_space() ? "\<Tab>" :
       \ coc#refresh()
 "" fix the most annoying bug that coc has
-silent! au BufEnter,BufRead,BufNewFile * silent! unmap if
+"silent! au BufEnter,BufRead,BufNewFile * silent! unmap if
 "let g:coc_global_extensions = ['coc-python', 'coc-vimlsp', 'coc-emmet', 'coc-html', 'coc-json', 'coc-css', 'coc-tsserver', 'coc-yank', 'coc-lists', 'coc-gitignore', 'coc-go']
 "set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 "" use <tab> for trigger completion and navigate to the next complete item
@@ -468,7 +490,9 @@ silent! au BufEnter,BufRead,BufNewFile * silent! unmap if
             "\ <SID>check_back_space() ? "\<Tab>" :
             "\ coc#refresh()
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <silent><expr> <c-space> coc#refresh()
+
+inoremap <silent><expr>   coc#refresh()
+
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
@@ -479,8 +503,9 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-" Use U to show documentation in preview window
+" Use H to show documentation in preview window
 nnoremap <silent> H :call <SID>show_documentation()<CR>
+
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
@@ -529,6 +554,34 @@ let g:tagbar_map_preview = "l"
 let g:tagbar_map_jump = "L"
 let g:tagbar_map_openallfolds = "="
 let g:tagbar_map_closeallfolds = "-"
+
+let g:tagbar_type_go = {
+	\ 'ctagstype' : 'go',
+	\ 'kinds'     : [
+		\ 'p:package',
+		\ 'i:imports:1',
+		\ 'c:constants',
+		\ 'v:variables',
+		\ 't:types',
+		\ 'n:interfaces',
+		\ 'w:fields',
+		\ 'e:embedded',
+		\ 'm:methods',
+		\ 'r:constructor',
+		\ 'f:functions'
+	\ ],
+	\ 'sro' : '.',
+	\ 'kind2scope' : {
+		\ 't' : 'ctype',
+		\ 'n' : 'ntype'
+	\ },
+	\ 'scope2kind' : {
+		\ 'ctype' : 't',
+		\ 'ntype' : 'n'
+	\ },
+	\ 'ctagsbin'  : 'gotags',
+	\ 'ctagsargs' : '-sort -silent'
+\ }
 
 
 
@@ -685,6 +738,23 @@ nmap s <Plug>(easymotion-s2)
 
 " vim-go
 let g:go_doc_keywordprg_enabled = 0
+let g:go_fmt_command = "goimports" " 格式化將預設的 gofmt 替換
+let g:go_autodetect_gopath = 1
+let g:go_list_type = "quickfix"
+
+let g:go_gopls_complete_unimported = 1
+
+let g:go_version_warning = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_generate_tags = 1
+
+let g:godef_split=2
 
 " startify
 let g:startify_bookmarks = [ {'c': '~/.vimrc'}, '~/.zshrc' ]
