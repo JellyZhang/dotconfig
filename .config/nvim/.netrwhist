@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =4
+let g:netrw_dirhist_4='/Users/jelly/workspace/gotest/hello'
+let g:netrw_dirhist_3='/Users/jelly/workspace/mit-6.824-2021/src/kvraft'
+let g:netrw_dirhist_2='/Users/jelly/workspace/jellyblog/layouts/shortcodes'
+let g:netrw_dirhist_1='/Users/jelly/workspace/mit-6.824-2021/.git'
+let g:netrw_dirhist_0='/Users/jelly/workspace/mit-6.824-2021/src/raft'
+let g:netrw_dirhist_9='/Users/jelly/workspace/rw-helper-back/api-server/internal'
+let g:netrw_dirhist_8='/Users/jelly/workspace/uniapp/test1/src/pages'
+let g:netrw_dirhist_7='/Users/jelly/workspace'
+let g:netrw_dirhist_6='/Users/jelly/workspace/traffictest'
+let g:netrw_dirhist_5='/Users/jelly/workspace/dev-env'
