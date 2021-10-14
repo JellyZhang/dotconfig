@@ -175,7 +175,6 @@ s = select * from $1 offset $2 limit $3
 sa = select * from $1
 [alias_dsn]
 docker = postgresql://jelly:123456@localhost:5432/testdb
-ali = postgresql://jelly:Wo65182383@pgm-2ze5kkm4tdn8s8k0ko.pg.rds.aliyuncs.com:1921/testdb
 [data_formats]
 decimal = ""
 float = ""
