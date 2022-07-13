@@ -79,9 +79,5 @@ export PATH=$JAVA_HOME/bin:$PATH
 export CLASS_PATH=$JAVA_HOME/lib
 export PATH="/usr/local/opt/node@16/bin:$PATH"
 
-# spotify
-export SPOTIPY_CLIENT_ID=d3ae31bc2f564679995041dc3371717a
-export SPOTIPY_CLIENT_SECRET=11bc017315d542c7b1dc4521da809c57
-
 # Fig post block. Keep at the bottom of this file.
 . "$HOME/.fig/shell/zshrc.post.zsh"
